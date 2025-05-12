@@ -1,0 +1,176 @@
+Game log started at 2025-05-09 12:31:52.284182
+Players: Alice, Bob, Charlie, David, Eve, Frank
+Roles Config: WW:2, Seer:True, Doctor:True
+Speech Limit Per Day: 6
+LLM Model: gemma3:27b, Temperature: 0.5
+--- SETTING UP THE GAME ---
+[GM SECRET] Player David assigned as Werewolf
+[GM SECRET] Player Alice assigned as Villager
+[GM SECRET] Player Charlie assigned as Villager
+[GM SECRET] Player Eve assigned as Seer
+[GM SECRET] Player Frank assigned as Werewolf
+[GM SECRET] Player Bob assigned as Doctor
+[GM INFO] Counts updated: WW: 2, Village Team: 4
+--- GAME SETUP COMPLETE ---
+[GM BROADCAST TO ALL RELEVANT] The game has begun!
+[GM INFO] Counts updated: WW: 2, Village Team: 4
+
+--- DAY 1 ---
+[GM BROADCAST TO ALL RELEVANT] Good morning, Village! Day 1 begins.
+[GM BROADCAST TO ALL RELEVANT] Alive players (6): David, Alice, Charlie, Eve, Frank, Bob.
+[GM BROADCAST TO ALL RELEVANT] Today's discussion will have a limit of 6 speeches. Let the deliberations begin!
+
+Frank's turn to speak (6 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [1/6] Frank: 'Good morning, everyone. It's good to finally have a chance to talk. Honestly, this is all a bit unsettling. I think we should all try to stay calm and avoid jumping to conclusions. Let's hear what everyone thinks before we start pointing fingers. I'm particularly interested in hearing from those who might have had... strange dreams last night. Maybe someone feels a little off? Just trying to get a feel for the room, you know? We need to work *together* to figure this out.' (Indicated next: Alice)
+
+Alice's turn to speak (5 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [2/6] Alice: 'Frank raises a good point about staying calm. Panic will only help the… potential threats among us. I agree we should listen to everyone, but I also think we need to be *actively* looking for inconsistencies. Someone claiming to have had a peaceful night when others felt uneasy… that’s something to note. I haven't had any particularly strange dreams myself, just the usual anxieties about being in a village potentially overrun by… well, you know. Let's focus on what people *say* and how it lines up with what others report. A little skepticism can go a long way.' (Indicated next: Bob)
+
+Bob's turn to speak (4 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [3/6] Bob: 'Alice and Frank both bring up good points – staying calm *and* being observant are crucial. I think focusing on dreams is a bit of a red herring, honestly. Dreams are… dreams. They're unreliable. I'd rather we focus on *behavior*. Who seems overly eager to accuse? Who's being unusually quiet? Who’s trying to steer the conversation in a particular direction? Let’s pay attention to how people are *reacting* to the questions, not what they claim happened while they were asleep. It's easy to fabricate a dream, much harder to control your reactions. I'm trying to be mindful of everyone's contributions, and I hope everyone else is too.' (Indicated next: Charlie)
+
+Charlie's turn to speak (3 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [4/6] Charlie: 'Bob is absolutely right to focus on behavior – it’s far more telling than anything fleeting like a dream. However, I think we're already falling into the trap of *looking* for suspicious behavior, which can be easily manipulated. Someone could be quiet to *appear* innocent, or overly eager to deflect. Instead of actively searching for 'suspicious' people, let's just listen to *everyone's reasoning*. Why do they think what they think? What logic are they using? If someone’s explanation feels flimsy or doesn’t quite add up, *that’s* when we should start asking questions. Let's prioritize clear, consistent reasoning over gut feelings or perceived nervousness. I haven't noticed anyone particularly standing out yet, but I'm paying attention.' (Indicated next: Eve)
+
+Eve's turn to speak (2 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [5/6] Eve: 'Charlie’s point about consistent reasoning is excellent. It’s easy to get caught up in looking for *signs* of guilt, but truly understanding someone’s thought process is far more valuable. I’ve been listening carefully, and while everyone has made valid points, I’m finding Bob’s focus on behavior particularly insightful. He’s not accusing anyone, just observing – a very level-headed approach. I think we should all try to emulate that. It’s also worth remembering that we’re all under pressure, and anxiety can manifest in many ways. Let’s avoid jumping to conclusions based on fleeting impressions. Perhaps we should each state, briefly, what *specifically* has led us to feel uneasy, if anything. A clear articulation of concerns might help us identify any inconsistencies in reasoning.' (Indicated next: David)
+
+David's turn to speak (1 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [6/6] David: 'Eve’s suggestion of each of us stating what specifically makes us uneasy is a good one, and I agree with a lot of what’s been said already. I think we’re all overthinking it a bit, though. Focusing so intently on *reasoning* and *behavior* feels… complicated. It's almost like we're trying to build a case against someone before we even have evidence. I felt a little uneasy this morning, honestly, just because of the situation itself – being in a village with potential werewolves is inherently unsettling! But I think we should avoid getting bogged down in analysis paralysis. Let’s trust our instincts a little more. If something *feels* off about someone, maybe we should gently explore that feeling instead of trying to dissect their every word. I haven’t pinpointed anyone specifically, but I’m definitely keeping an open mind. Let's not create a complex web of suspicion when a simple, honest conversation might be enough.' (Indicated next: Frank)
+[GM BROADCAST TO ALL RELEVANT] The day's discussion has ended.
+
+--- DECISION TO VOTE ---
+Asking David if they want a vote...
+[GM RECORD] David responded 'NO' to holding a vote.
+Asking Alice if they want a vote...
+[GM RECORD] Alice responded 'NO' to holding a vote.
+Asking Charlie if they want a vote...
+[GM RECORD] Charlie responded 'NO' to holding a vote.
+Asking Eve if they want a vote...
+[GM RECORD] Eve responded 'NO' to holding a vote.
+Asking Frank if they want a vote...
+[GM RECORD] Frank responded 'NO' to holding a vote.
+Asking Bob if they want a vote...
+[GM RECORD] Bob responded 'NO' to holding a vote.
+[GM BROADCAST TO ALL RELEVANT] The village has decided not to hold a vote today. Night approaches.
+
+--- NIGHT 1 ---
+[GM BROADCAST TO ALL RELEVANT] Night has fallen upon the village. Everyone goes to sleep... except those with nightly business.
+[GM BROADCAST TO ALL RELEVANT] The werewolves gather to choose a victim...
+Asking Werewolf David for a target...
+[GM RECORD] Werewolf David chose to attack 'Bob'.
+Asking Werewolf Frank for a target...
+[GM RECORD] Werewolf Frank chose to attack 'Bob'.
+[GM BROADCAST TO ALL RELEVANT] The werewolves have decided to attack: Bob.
+Asking Seer Eve to investigate...
+[GM RECORD] Seer Eve chose to investigate 'Alice'.
+[GM INFO] Seer Eve found Alice is a Villager.
+Asking Doctor Bob to protect...
+[GM RECORD] Doctor Bob chose to protect 'Bob'.
+[GM INFO] Bob was attacked by werewolves, BUT SAVED by the Doctor!
+--- END OF NIGHT 1 ---
+[GM INFO] Counts updated: WW: 2, Village Team: 4
+
+--- DAY 2 ---
+[GM BROADCAST TO ALL RELEVANT] Good morning, Village! Day 2 begins.
+[GM BROADCAST TO ALL RELEVANT] The werewolves claimed a victim last night, but someone intervened. No one was found dead this morning.
+[GM BROADCAST TO ALL RELEVANT] Alive players (6): David, Alice, Charlie, Eve, Frank, Bob.
+[GM BROADCAST TO ALL RELEVANT] Today's discussion will have a limit of 6 speeches. Let the deliberations begin!
+
+Bob's turn to speak (6 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [1/6] Bob: 'Well, that’s… reassuring. Someone or something clearly intervened last night, and we should all be grateful. It proves there’s someone amongst us actively trying to protect the village. I think we need to shift our focus. Yesterday was about identifying potential threats, but today should be about building trust. Let’s each share what we were thinking last night – not accusations, but our reasoning. What led us to suspect who we suspected? Openly discussing our thought processes might reveal misunderstandings or shared concerns. I'm willing to go first if anyone wants to hear my initial impressions from yesterday. Let's move away from suspicion and towards understanding.' (Indicated next: Alice)
+
+Alice's turn to speak (5 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [2/6] Alice: 'Bob’s suggestion is a good one – transparency is crucial, especially after last night’s… intervention. It proves someone is actively working to protect us, which is encouraging. Yesterday, my concern stemmed from a feeling that some people were trying to steer the conversation *away* from specifics. Focusing on broad anxieties rather than concrete observations felt… evasive. I wasn’t targeting anyone specifically, just noting a pattern. I think it’s important to remember that werewolves are skilled at deception, and they’ll likely try to muddy the waters. So, while open communication is vital, we also need to remain vigilant and critically evaluate everything we hear. I wasn't necessarily *suspicious* of anyone, just observing a conversational tactic that felt… unusual.' (Indicated next: Charlie)
+
+Charlie's turn to speak (4 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [3/6] Charlie: 'Alice is right to point out the importance of vigilance, but I think we're falling back into the trap of *looking* for deception. Both Alice and Bob mentioned noticing patterns in *how* people spoke, rather than *what* they said. That feels like we're analyzing the presentation, not the content. I think we should focus on the actual arguments being made. Are people offering logical explanations? Are their claims consistent? If we get bogged down in analyzing conversational tactics, we’ll miss the real clues. I agree with Bob that sharing our initial impressions is a good idea, but let's focus on *why* we had those impressions based on the content of the discussion, not just how someone presented it. I didn't find anyone particularly suspicious yesterday, but I *did* think some arguments lacked substance.' (Indicated next: Eve)
+
+Eve's turn to speak (3 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [4/6] Eve: 'I agree with Charlie – focusing on the substance of the arguments is paramount. It’s easy to get distracted by *how* someone says something, but ultimately, it’s the logic behind their reasoning that matters. I’ve been listening carefully to everyone’s contributions, and I’m struck by how consistently Bob has advocated for open communication and trust. It’s a refreshing perspective, and I think it’s exactly what we need right now. He’s consistently steered the conversation towards constructive dialogue, and I appreciate that. I think we should all try to emulate his approach. Let’s move beyond initial impressions and focus on building a shared understanding of the situation.' (Indicated next: David)
+
+David's turn to speak (2 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [5/6] David: 'Eve’s praise of Bob is… interesting. It’s good to see people appreciating his attempts at fostering trust, but it feels a little… excessive. Almost like he’s being deliberately shielded. I agree that open communication is vital, but Eve’s description of Bob as consistently advocating for trust feels like she’s painting a picture of someone who’s *too* eager to appear innocent. It’s not that I *suspect* him of anything, but it’s worth noting that consistent displays of virtue can sometimes be a tactic. I think we need to be wary of anyone who seems *too* eager to be seen as the ‘good guy’. Let's not let admiration blind us to potential manipulation. I haven’t formed any strong opinions yet, but I think we should be critical of *all* perspectives, even those that seem genuinely helpful.' (Indicated next: Frank)
+
+Frank's turn to speak (1 speeches remaining)...
+[GM BROADCAST TO ALL RELEVANT] [6/6] Frank: 'David raises a valid point about being wary of *anyone* appearing too eager to please. It’s easy to get caught up in praising someone and overlook potential flaws. However, I think we’re getting lost in hypotheticals again. We’re analyzing motivations instead of focusing on what people are *actually saying*. I haven't seen anyone present a truly compelling argument against Bob, and frankly, his consistent push for open communication is exactly what we need right now. Let’s not create problems where none exist. Let’s trust those who are actively trying to build trust. We're wasting time dissecting good intentions when we should be focusing on concrete evidence.' (Indicated next: anyone)
+[GM BROADCAST TO ALL RELEVANT] The day's discussion has ended.
+
+--- DECISION TO VOTE ---
+Asking David if they want a vote...
+[GM RECORD] David responded 'YES' to holding a vote.
+Asking Alice if they want a vote...
+[GM RECORD] Alice responded 'YES' to holding a vote.
+Asking Charlie if they want a vote...
+[GM RECORD] Charlie responded 'YES' to holding a vote.
+Asking Eve if they want a vote...
+[GM RECORD] Eve responded 'YES' to holding a vote.
+Asking Frank if they want a vote...
+[GM RECORD] Frank responded 'NO' to holding a vote.
+Asking Bob if they want a vote...
+[GM RECORD] Bob responded 'NO' to holding a vote.
+[GM BROADCAST TO ALL RELEVANT] The majority has decided to hold a vote. Let's proceed to nominations.
+
+--- LYNCH VOTE ---
+Asking David for a nomination...
+[GM RECORD] David nominated 'Bob'.
+Asking Alice for a nomination...
+[GM RECORD] Alice nominated 'Bob'.
+Asking Charlie for a nomination...
+[GM RECORD] Charlie nominated 'Bob'.
+Asking Eve for a nomination...
+[GM RECORD] Eve nominated 'Frank'.
+Asking Frank for a nomination...
+[GM RECORD] Frank nominated 'Alice'.
+Asking Bob for a nomination...
+[GM RECORD] Bob nominated 'David'.
+[GM BROADCAST TO ALL RELEVANT] Players nominated for elimination: Bob, Frank, Alice, David. Now for the final vote.
+Asking David for their final vote...
+[GM RECORD] David voted to eliminate 'Bob'.
+Asking Alice for their final vote...
+[GM RECORD] Alice voted to eliminate 'Bob'.
+Asking Charlie for their final vote...
+[GM RECORD] Charlie voted to eliminate 'Bob'.
+Asking Eve for their final vote...
+[GM RECORD] Eve voted to eliminate 'Frank'.
+Asking Frank for their final vote...
+[GM RECORD] Frank voted to eliminate 'Alice'.
+Asking Bob for their final vote...
+[GM RECORD] Bob voted to eliminate 'David'.
+[GM BROADCAST TO ALL RELEVANT] The vote has concluded. With 3 votes, Bob has been eliminated by the village.
+[GM BROADCAST TO ALL RELEVANT] Bob (Doctor) has died eliminated by the village.
+[GM INFO] Counts updated: WW: 2, Village Team: 3
+[GM BROADCAST TO ALL RELEVANT] With the decision made, night falls...
+
+--- NIGHT 2 ---
+[GM BROADCAST TO ALL RELEVANT] Night has fallen upon the village. Everyone goes to sleep... except those with nightly business.
+[GM BROADCAST TO ALL RELEVANT] The werewolves gather to choose a victim...
+Asking Werewolf David for a target...
+[GM RECORD] Werewolf David chose to attack 'Alice'.
+Asking Werewolf Frank for a target...
+[GM RECORD] Werewolf Frank chose to attack 'Eve'.
+[GM BROADCAST TO ALL RELEVANT] The werewolves have decided to attack: Alice.
+Asking Seer Eve to investigate...
+[GM RECORD] Seer Eve chose to investigate 'David'.
+[GM INFO] Seer Eve found David is a Werewolf.
+[GM INFO] Alice was attacked by werewolves. Doctor protected nobody/other.
+--- END OF NIGHT 2 ---
+[GM INFO] Counts updated: WW: 2, Village Team: 3
+
+--- DAY 3 ---
+[GM BROADCAST TO ALL RELEVANT] Good morning, Village! Day 3 begins.
+[GM BROADCAST TO ALL RELEVANT] During the night, the werewolves attacked. Unfortunately, Alice did not survive.
+[GM BROADCAST TO ALL RELEVANT] Alice (Villager) has died attacked by werewolves.
+[GM INFO] Counts updated: WW: 2, Village Team: 2
+[GM BROADCAST TO ALL RELEVANT] The Werewolves have taken over the village! WEREWOLVES WIN!
+
+--- GAME OVER ---
+Winner(s): Werewolves
+
+--- Final Role Summary ---
+David was a Werewolf and is Alive.
+Alice was a Villager and is Dead.
+Charlie was a Villager and is Alive.
+Eve was a Seer and is Alive.
+Frank was a Werewolf and is Alive.
+Bob was a Doctor and is Dead.

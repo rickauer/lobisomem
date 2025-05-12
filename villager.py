@@ -1,8 +1,7 @@
-# villager.py
+# werewolf_llm_game/villager.py
 from player_base import Player
-from llm_interface import LLMInterface
 
 class Villager(Player):
-    def __init__(self, name: str, llm_interface: LLMInterface):
-        super().__init__(name, llm_interface)
-        # Villagers have no special night actions or starting info beyond their role
+    def __init__(self, name, game_master=None): # Added game_master
+        super().__init__(name, "Villager", game_master=game_master) # Pass to super
+        # Villagers don't get special knowledge initially beyond their role

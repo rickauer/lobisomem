@@ -1,0 +1,6 @@
+Game log started at 2025-05-09 11:44:51.946157
+Players: Alice, Bob, Charlie, David, Eve, Frank
+Roles Config: WW:2, Seer:True, Doctor:True
+Speech Limit Per Day: 6
+LLM Model: gemma3:27b, Temperature: 0.3
+Game cancelled by user before starting.

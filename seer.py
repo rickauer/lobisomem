@@ -1,44 +1,32 @@
-# seer.py
+# werewolf_llm_game/seer.py
 from player_base import Player
-from llm_interface import LLMInterface
 
 class Seer(Player):
-    def __init__(self, name: str, llm_interface: LLMInterface):
-        super().__init__(name, llm_interface)
+    def __init__(self, name, game_master=None): # Added game_master
+        super().__init__(name, "Seer", game_master=game_master) # Pass to super
+        self.game_knowledge["known_werewolves_at_start"] = [] 
 
-    def night_action(self, players, game_log_callback):
-        """Seer chooses a player to investigate."""
-        game_log_callback(f"\nIt's {self.name}'s (Seer) turn to investigate.")
-        game_state = self.get_game_state_summary(players)
-
-        # Seer can investigate anyone alive, including themselves (though usually not optimal)
-        # Cannot investigate dead players.
-        investigate_options = [p.name for p in players if p.is_alive] # Can investigate self
-        
-        if not investigate_options:
-            game_log_callback(f"{self.name} (Seer) has no one to investigate.")
-            return # Nothing to do
+    def night_action_prompt(self, game_master_unused): # game_master_unused
+        alive_players_to_investigate = [
+            p.name for p in self.game_master.get_alive_players() if p.name != self.name # Use self.game_master
+        ]
+        if not alive_players_to_investigate:
+            return "There are no other living players to investigate."
 
         prompt = (
-            f"{game_state}\n"
-            "You are the Seer. It's night. Choose a player to investigate to learn their role (Werewolf or Not Werewolf). "
-            "Your goal is to find the Werewolves."
+            f"You are the Seer. It is night. Choose a player to investigate and discover their role.\n"
+            f"Remember, at the start of the game you were told the Werewolves were: {', '.join(self.game_knowledge.get('known_werewolves_at_start', ['N/A']))}.\n"
+            f"Alive players (excluding yourself): {', '.join(alive_players_to_investigate)}.\n"
+            f"Who do you choose to investigate? Respond with ONLY the player's name."
         )
-        
-        chosen_player_name = self.llm_interface.get_player_choice(prompt, investigate_options)
-        
-        target_player = None
-        for p in players:
-            if p.name == chosen_player_name:
-                target_player = p
-                break
-        
+        return prompt
+
+    def perform_night_action(self, game_master_unused, investigated_player_name): # game_master_unused
+        target_player = self.game_master._get_player_by_name(investigated_player_name) # Use self.game_master
         if target_player:
-            # For simplicity, Seer sees "Werewolf" or "Not Werewolf"
-            # A more advanced Seer might see exact roles, or "good team" / "bad team"
-            is_wolf = "is a Werewolf" if target_player.role == "Werewolf" else "is NOT a Werewolf"
-            vision_result = f"Your vision reveals: {target_player.name} {is_wolf}."
-            game_log_callback(f"{self.name} (Seer) investigated {target_player.name}. {vision_result} (Seer privately sees this)")
-            self.add_known_info(f"{target_player.name} {is_wolf}.") # Add to Seer's private knowledge
+            role_revealed = target_player.role_name_display 
+            message_to_seer = f"You investigated {investigated_player_name} and discovered their role is: {role_revealed}."
+            self.add_to_context(message_to_seer, role="game_master_info")
+            # GM will log the actual result separately in game.py's night_phase
         else:
-            game_log_callback(f"{self.name} (Seer) failed to choose a valid player for investigation.")
+            self.add_to_context(f"You tried to investigate {investigated_player_name}, but that person was not found.", role="game_master_info")
