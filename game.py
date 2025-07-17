@@ -202,6 +202,12 @@ class GameMaster:
             f"Seer: Each night, can investigate one player to discover their true role.\n"
             f"Doctor: Each night, can protect one player (including themself) from the werewolf attack. Elimination by day vote is final and cannot be reversed by healing.\n"
             
+            f"\n--- Daytime Communication Rules ---\n"
+            f"The first speaker of the day is chosen randomly. After your speech, you MUST indicate who speaks next by naming a player or saying 'anyone'. If you say 'anyone', the next speaker will also be chosen randomly. This continues until the speech limit for the day is reached.\n"
+            
+            f"\n--- Game Rules ---\n"
+            f"The game alternates between Day and Night. During the day, everyone discusses according to the communication rules. At the end of the day, a vote may be held to eliminate a suspect. Ties in the vote result in no elimination. During the night, special roles use their abilities.\n"
+            
             f"\n--- CRUCIAL RULE OF REASONING ---\n"
             f"Base your strategy on two sources of information:\n"
             f"1. Public announcements from the Game Master (e.g., who was eliminated). These are undisputed facts.\n"
