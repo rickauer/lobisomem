@@ -138,7 +138,7 @@ class GameMaster:
 
         for player in target_players_obj:
             if player not in excluded_player_objs:
-                player.add_to_context(message, role="game_master_info")
+                player.add_to_context(message)
 
     def setup_game(self):
         self._log_event("--- SETTING UP THE GAME ---")
@@ -391,9 +391,15 @@ class GameMaster:
         for player in alive_players:
             time.sleep(0.1)
             self._log_event(f"Asking {player.name} for their final vote...")
+
+            # --- NOVA LÓGICA ---
+            # Cria uma lista de opções que exclui o próprio jogador
+            options_for_this_player = [name for name in nominated_players_distinct if name != player.name]
+            # --- FIM DA NOVA LÓGICA ---
+
             vote_choice = player.get_player_choice_from_list(
                 f"Vote for one of the nominated players to eliminate: {', '.join(nominated_players_distinct)}. Or abstain. You can use the <think> tag to reason about your choice. This will not be seen by other players.",
-                nominated_players_distinct,
+                options_for_this_player, # <--- Usa a nova lista filtrada
                 allow_abstain=True,
                 abstain_option="Abstain from voting"
             )
@@ -414,24 +420,29 @@ class GameMaster:
         tied = False
 
         if vote_counts:
+            # Encontra a contagem de votos mais alta
             max_v = max(vote_counts.values())
+            # Encontra todos os jogadores que receberam essa contagem máxima
             players_with_max_v = [p_name for p_name, count in vote_counts.items() if count == max_v]
+            
+            # Só há um vencedor claro se UMA pessoa tiver o máximo de votos
             if len(players_with_max_v) == 1:
                 eliminated_player_name = players_with_max_v[0]
                 most_votes = max_v
             else:
+                # Se mais de uma pessoa tiver o máximo de votos, é um empate
                 tied = True 
 
+        # Se houve empate ou se ninguém foi escolhido, ninguém é eliminado
         if tied or not eliminated_player_name: 
             self._broadcast_message(f"The vote ended in a tie or with no decisive votes. No one was eliminated today. Night approaches.")
         else:
-            eliminated_player_obj = self._get_player_by_name(eliminated_player_name)
+            # Caso contrário, elimina o jogador com mais votos
             self._broadcast_message(f"The vote has concluded. With {most_votes} votes, {eliminated_player_name} has been eliminated by the village.")
-            
             self._handle_player_death(eliminated_player_name, "eliminated by the village")
             
-            if eliminated_player_obj.role_name_en == "Werewolf": 
-                if self._check_game_over(): return 
+            # Verifica a condição de vitória e anuncia a noite
+            if self._check_game_over(): return 
             if not self.game_over:
                  self._broadcast_message("With the decision made, night falls...")
 

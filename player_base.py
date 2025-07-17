@@ -5,7 +5,7 @@ import re
 
 # --- Ollama Configuration ---
 OLLAMA_MODEL = "magistral" # Or "llama3", "mistral", "orca-mini", etc.
-OLLAMA_TEMPERATURE = 0.5 # Lower temperature for less randomness, more focused responses
+OLLAMA_TEMPERATURE = 0.2 # Lower temperature for less randomness, more focused responses
 
 # --- LLM Interaction Function ---
 def call_ollama(system_prompt, user_prompt, context_history=None, player_name_for_log="Player", game_master_logger=None):
@@ -113,8 +113,17 @@ class Player:
         
         self.add_to_context(full_prompt, role="user") 
         self.add_to_context(response_text, role="assistant")
+        
+        # --- NOVA VERIFICAÇÃO DE ROBUSTEZ ---
+        # Se a resposta for muito longa para uma simples escolha, considere-a inválida.
+        MAX_CHOICE_LENGTH = 100 
+        if len(response_text) > MAX_CHOICE_LENGTH:
+            if self.game_master: self.game_master._log_event(f"[GM Fallback] {self.name}'s response was too long and likely corrupt. Picking randomly.")
+            if choices:
+                return random.choice(choices)
+            return None # Ou a opção de abster-se, se aplicável
 
-        cleaned_response = re.sub(r'[\w\s-]', '', response_text).strip() 
+        cleaned_response = response_text.strip() 
 
         for choice in choices:
             if choice.lower() == cleaned_response.lower():
@@ -207,14 +216,20 @@ class Player:
                         next_speaker_name = "anyone" 
         else:
             if self.game_master: self.game_master._log_event(f"[GM Warning] Could not parse speech and next speaker from {self.name}'s response: '{response_text}'. Using full response as speech and 'anyone' as next.")
-            for name_option in reversed(alive_player_names + ["anyone"]): 
-                if name_option.lower() in response_text.lower()[-30:]: 
-                    if name_option == "anyone" or name_option in alive_player_names:
-                        next_speaker_name = name_option
-                        if "NEXT:" in response_text.upper():
-                            speech = response_text.split(re.search(r"NEXT:", response_text, re.IGNORECASE).group(0))[0].strip()
-                        elif "PRÓXIMO:" in response_text.upper(): 
-                             speech = response_text.split(re.search(r"PRÓXIMO:", response_text, re.IGNORECASE).group(0))[0].strip()
+            speech = response_text # Usa a resposta inteira como fala por padrão
+            next_speaker_name = "anyone" # Usa 'anyone' como próximo por padrão
+
+            # Tenta encontrar uma indicação de próximo orador de forma mais robusta
+            # Procura por "NEXT: [NOME]" ou "PRÓXIMO: [NOME]"
+            next_match = re.search(r"(?:NEXT|PRÓXIMO):\s*(\w+)", response_text, re.IGNORECASE)
+            if next_match:
+                potential_name = next_match.group(1)
+                # Verifica se o nome encontrado está na lista de jogadores vivos
+                for alive_name in alive_player_names:
+                    if alive_name.lower() == potential_name.lower():
+                        next_speaker_name = alive_name
+                        # Remove a parte "NEXT..." da fala principal
+                        speech = response_text[:next_match.start()].strip()
                         break
         return speech, next_speaker_name
 

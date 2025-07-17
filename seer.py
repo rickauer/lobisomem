@@ -15,7 +15,7 @@ class Seer(Player):
 
         prompt = (
             f"You are the Seer. It is night. Choose a player to investigate and discover their role.\n"
-            f"Remember, at the start of the game you were told the Werewolves were: {', '.join(self.game_knowledge.get('known_werewolves_at_start', ['N/A']))}.\n"
+            # f"Remember, at the start of the game you were told the Werewolves were: {', '.join(self.game_knowledge.get('known_werewolves_at_start', ['N/A']))}.\n"
             f"Alive players (excluding yourself): {', '.join(alive_players_to_investigate)}.\n"
             f"Who do you choose to investigate? Respond with ONLY the player's name."
         )
