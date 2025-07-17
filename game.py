@@ -61,17 +61,26 @@ class GameMaster:
         self.game_log.append(str(message)) # Ensure message is string
 
     def _log_llm_interaction(self, player_name, system_prompt, context_history_str, user_prompt, llm_response):
-        # context_history_str is already prepared by call_ollama
+        # This function remains for logging the public part of the interaction.
         log_message_parts = [
-            # f"\n--- [LLM Call for {player_name} in Log] ---",
-            # f"System: {system_prompt}",
-            # str(context_history_str), # Use the prepared string
-            # f"User: {user_prompt}",
-            # f"LLM Raw Response: {llm_response}",
-            # f"--- [End LLM Call for {player_name} in Log] ---\n"
+            f"\n--- [LLM Call for {player_name} in Log] ---",
+            f"System: {system_prompt}",
+            str(context_history_str),
+            f"User: {user_prompt}",
+            f"LLM Final Response: {llm_response}",
+            f"--- [End LLM Call for {player_name} in Log] ---"
         ]
         for line in log_message_parts:
             self.game_log.append(line)
+
+    def _log_player_thinking(self, player_name, thought_process):
+        """Logs the private thought process of a player to the main game log."""
+        log_message = (
+            f"\n--- [Private Thought Process for {player_name}] ---\n"
+            f"{thought_process}"
+            f"\n--- [End Private Thought Process for {player_name}] ---"
+        )
+        self.game_log.append(log_message)
 
     def _write_log_to_file(self):
         if self.log_file_path:
@@ -326,7 +335,7 @@ class GameMaster:
             time.sleep(0.1)
             self._log_event(f"Asking {player.name} if they want a vote...")
             response = player.get_yes_no_response(
-                "The discussion has ended. Do you want to hold a vote to eliminate someone today? (Answer YES or NO)"
+                "The discussion has ended. Do you want to hold a vote to eliminate someone today? You can use the <think> tag to reason about your choice. This will not be seen by other players. (Answer YES or NO)"
             )
             self._log_event(f"[GM RECORD] {player.name} responded '{response}' to holding a vote.")
             if response == "YES":
@@ -359,7 +368,7 @@ class GameMaster:
 
             self._log_event(f"Asking {player.name} for a nomination...")
             chosen_nominee = player.get_player_choice_from_list(
-                "Who would you like to nominate for possible elimination?",
+                "Who would you like to nominate for possible elimination? You can use the <think> tag to reason about your choice. This will not be seen by other players.",
                 nomination_options,
                 allow_abstain=True, 
                 abstain_option="Abstain from nominating"
@@ -384,7 +393,7 @@ class GameMaster:
             time.sleep(0.1)
             self._log_event(f"Asking {player.name} for their final vote...")
             vote_choice = player.get_player_choice_from_list(
-                f"Vote for one of the nominated players to eliminate: {', '.join(nominated_players_distinct)}. Or abstain.",
+                f"Vote for one of the nominated players to eliminate: {', '.join(nominated_players_distinct)}. Or abstain. You can use the <think> tag to reason about your choice. This will not be seen by other players.",
                 nominated_players_distinct,
                 allow_abstain=True,
                 abstain_option="Abstain from voting"
@@ -586,10 +595,4 @@ if __name__ == "__main__":
     )
     # Initial config is logged by GameMaster's __init__ via _setup_logging
 
-    confirmation = input("This may take time and make many LLM calls. Continue? (y/n): ")
-    if confirmation.lower() != 'y':
-        gm._log_event("Game cancelled by user before starting.") 
-        gm._write_log_to_file()
-        print("Game cancelled.") 
-    else:
-        gm.run_game()
+    gm.run_game()

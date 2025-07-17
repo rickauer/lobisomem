@@ -4,14 +4,13 @@ import random
 import re
 
 # --- Ollama Configuration ---
-OLLAMA_MODEL = "gemma3:12b" # Or "llama3", "mistral", "orca-mini", etc.
+OLLAMA_MODEL = "qwen3:4b" # Or "llama3", "mistral", "orca-mini", etc.
 OLLAMA_TEMPERATURE = 0.5 # Lower temperature for less randomness, more focused responses
 
 # --- LLM Interaction Function ---
 def call_ollama(system_prompt, user_prompt, context_history=None, player_name_for_log="Player", game_master_logger=None):
     """
-    Calls the Ollama API with a system prompt, user prompt, and optional history.
-    Retries a few times on failure. Logs interaction via game_master_logger if provided.
+    Calls the Ollama API, handles responses with <think> blocks, and logs interactions.
     """
     if context_history is None:
         context_history = []
@@ -20,18 +19,8 @@ def call_ollama(system_prompt, user_prompt, context_history=None, player_name_fo
     messages.extend(context_history)
     messages.append({"role": "user", "content": user_prompt})
 
-    # Console printing for LLM call details
-    # This will still happen, and the logger will write it to the file too.
-    # print(f"\n--- [LLM Call for {player_name_for_log}] ---")
-    # print(f"System: {system_prompt}")
-    # if len(context_history) > 4:
-    #     print(f"Context (last {min(len(context_history), 2)}): {context_history[-min(len(context_history),2):]}")
-    # else:
-    #     print(f"Context: {context_history}")
-    # print(f"User: {user_prompt}")
-
     max_retries = 3
-    llm_response_content = f"Error: LLM call failed after {max_retries} attempts." # Default error message
+    llm_response_content = f"Error: LLM call failed after {max_retries} attempts."
     for attempt in range(max_retries):
         try:
             response = ollama.chat(
@@ -40,30 +29,42 @@ def call_ollama(system_prompt, user_prompt, context_history=None, player_name_fo
                 options={"temperature": OLLAMA_TEMPERATURE}
             )
             llm_response_content = response['message']['content'].strip()
-            # print(f"LLM Raw Response: {llm_response_content}") # Keep console print
-            break # Success, exit retry loop
+            break
         except Exception as e:
             print(f"Error calling Ollama for {player_name_for_log} (Attempt {attempt + 1}/{max_retries}): {e}")
-            llm_response_content = f"Error: Could not get response from LLM after {max_retries} attempts. Last error: {e}"
+            llm_response_content = f"Error: Could not get response from LLM. Last error: {e}"
             if attempt == max_retries - 1:
-                break # Max retries reached
-    
-    # print(f"--- [End LLM Call for {player_name_for_log}] ---\n") # Print end of call to console
+                break
 
-    # Log to GameMaster's log file if logger is provided
-    if game_master_logger and hasattr(game_master_logger, '_log_llm_interaction'):
-        # Prepare context history string for logging (don't log the full objects directly)
-        context_history_str = [str(msg) for msg in context_history]
-        if len(context_history_str) > 4:
-            logged_context = f"Context (last {min(len(context_history_str), 2)}): {context_history_str[-min(len(context_history_str),2):]}"
-        else:
-            logged_context = f"Context: {context_history_str}"
+    # --- Response Parsing for <think> blocks ---
+    thought_process = ""
+    final_response = llm_response_content
 
-        game_master_logger._log_llm_interaction(
-            player_name_for_log, system_prompt, logged_context, user_prompt, llm_response_content
-        )
-    
-    return llm_response_content
+    think_match = re.search(r"<think>(.*?)</think>", llm_response_content, re.DOTALL)
+    if think_match:
+        thought_process = think_match.group(1).strip()
+        # The final response is everything outside the <think> block
+        final_response = re.sub(r"<think>.*?</think>", "", llm_response_content, flags=re.DOTALL).strip()
+
+    # --- Logging ---
+    if game_master_logger:
+        # Log the (potentially private) thought process
+        if thought_process and hasattr(game_master_logger, '_log_player_thinking'):
+            game_master_logger._log_player_thinking(player_name_for_log, thought_process)
+
+        # Log the public-facing interaction
+        if hasattr(game_master_logger, '_log_llm_interaction'):
+            context_history_str = [str(msg) for msg in context_history]
+            if len(context_history_str) > 4:
+                logged_context = f"Context (last {min(len(context_history_str), 2)}): {context_history_str[-min(len(context_history_str),2):]}"
+            else:
+                logged_context = f"Context: {context_history_str}"
+            
+            game_master_logger._log_llm_interaction(
+                player_name_for_log, system_prompt, logged_context, user_prompt, final_response
+            )
+            
+    return final_response
 
 
 class Player:
@@ -104,7 +105,7 @@ class Player:
         )
         if allow_abstain:
             full_prompt += f"You can also choose to '{abstain_option}'.\n"
-        full_prompt += "Respond with ONLY the name of your choice from the list, or the abstain option if available. Nothing else."
+        full_prompt += "You can use the <think> tag to reason about your choice. This will not be seen by other players. Then, respond with ONLY the name of your choice from the list, or the abstain option if available. Nothing else."
 
         system_p = f"You are {self.name}, playing Werewolf. Your role is {self.role_name_display}. Follow instructions precisely. Provide only the requested choice."
 
@@ -113,7 +114,7 @@ class Player:
         self.add_to_context(full_prompt, role="user") 
         self.add_to_context(response_text, role="assistant")
 
-        cleaned_response = re.sub(r'[^\w\s-]', '', response_text).strip() 
+        cleaned_response = re.sub(r'[\w\s-]', '', response_text).strip() 
 
         for choice in choices:
             if choice.lower() == cleaned_response.lower():
@@ -139,7 +140,7 @@ class Player:
     def get_yes_no_response(self, prompt_instruction):
         full_prompt = (
             f"{prompt_instruction}\n"
-            f"Please answer with ONLY 'YES' or 'NO'. Nothing else."
+            f"You can use the <think> tag to reason about your choice. This will not be seen by other players. Please answer with ONLY 'YES' or 'NO'. Nothing else."
         )
         system_p = f"You are {self.name}, playing Werewolf. Your role is {self.role_name_display}. Respond concisely with ONLY 'YES' or 'NO'."
         
@@ -169,7 +170,7 @@ class Player:
         prompt = (
             f"It's your turn to speak, {self.name}. There are {remaining_speeches} speeches left in today's discussion.\n"
             f"What do you say? Try to be persuasive or deflect suspicion, according to your role ({self.role_name_display}).\n"
-            f"After your speech, indicate who should speak next. The options are: {', '.join(options_next)}.\n"
+            f"You can use the <think> tag to reason about your choice. This will not be seen by other players. After your speech, indicate who should speak next. The options are: {', '.join(options_next)}.\n"
             f"Your response MUST follow this EXACT format: MY SPEECH: [your speech here] NEXT: [player name or 'anyone']"
         )
         system_p = (
