@@ -217,9 +217,8 @@ class GameMaster:
                     player.add_to_context("You are a Werewolf and currently the only one of your kind.", role="system")
             
             if player.role_name_en == "Seer":
-                player.game_knowledge["known_werewolves_at_start"] = list(werewolf_names) 
-                player.add_to_context(f"You are the Seer. ALL Werewolves in this game are: {', '.join(werewolf_names) if werewolf_names else 'None (this should not happen in a standard game)'}.", role="system")
-        
+                player.add_to_context("You are the Seer. Each night, you can investigate a player to discover their true role.", role="system")
+
         self._update_player_counts() 
         self.day_number = 1
         self._log_event("--- GAME SETUP COMPLETE ---")

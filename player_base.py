@@ -4,7 +4,7 @@ import random
 import re
 
 # --- Ollama Configuration ---
-OLLAMA_MODEL = "qwen3:4b" # Or "llama3", "mistral", "orca-mini", etc.
+OLLAMA_MODEL = "magistral" # Or "llama3", "mistral", "orca-mini", etc.
 OLLAMA_TEMPERATURE = 0.5 # Lower temperature for less randomness, more focused responses
 
 # --- LLM Interaction Function ---
