@@ -195,12 +195,20 @@ class GameMaster:
         general_rules_prompt = (
             f"Welcome to the game of Werewolf, {{player_name}}!\n"
             f"Game Objective: Villagers win if they eliminate all Werewolves. Werewolves win if their number equals or exceeds the number of Villagers team members.\n"
-            f"The game alternates between Day and Night phases.\n"
             f"Players in this game: {all_player_names_str}.\n"
-            f"Daytime Communication Rules: You will speak in turns. There's a limit to speeches per day. When you speak, indicate who speaks next ('[Name]' or 'anyone').\n"
-            f"Voting Rules (End of Day, Optional): After discussion, players will decide if there's a vote. If yes, secret nominations occur, then a secret vote. Ties result in no elimination.\n"
-            f"Special Roles: Roles like Werewolf, Seer, Doctor exist. Their abilities are used at night.\n"
-            f"Your secret role in this game is: {{player_role}}."
+            
+            f"\n--- Role Abilities ---\n"
+            f"Werewolf: Each night, secretly votes with their pack to eliminate one player.\n"
+            f"Seer: Each night, can investigate one player to discover their true role.\n"
+            f"Doctor: Each night, can protect one player (including themself) from the werewolf attack. Elimination by day vote is final and cannot be reversed by healing.\n"
+            
+            f"\n--- CRUCIAL RULE OF REASONING ---\n"
+            f"Base your strategy on two sources of information:\n"
+            f"1. Public announcements from the Game Master (e.g., who was eliminated). These are undisputed facts.\n"
+            f"2. The speech of other players. BEWARE: Any player can lie to achieve their goals. A Werewolf will always pretend to be a Villager. You must deduce who is trustworthy.\n"
+            f"Do NOT assume secret night actions (like a Doctor's save) occurred unless they were officially announced.\n"
+            
+            f"\nYour secret role in this game is: {{player_role}}."
         )
 
         werewolf_names = [p.name for p in self.players if p.role_name_en == "Werewolf"]
@@ -218,6 +226,32 @@ class GameMaster:
             
             if player.role_name_en == "Seer":
                 player.add_to_context("You are the Seer. Each night, you can investigate a player to discover their true role.", role="system")
+
+        self._update_player_counts() 
+        self.day_number = 1
+                # --- ANÚNCIO PÚBLICO DA COMPOSIÇÃO DOS PAPÉIS ---
+        self._log_event("[GM INFO] Announcing role counts to all players.")
+        role_summary_parts = []
+        
+        # Adiciona a contagem de Lobisomens
+        ww_count = self.num_werewolves_start
+        role_summary_parts.append(f"{ww_count} Werewolf" if ww_count == 1 else f"{ww_count} Werewolves")
+
+        # Adiciona a contagem de Papéis Especiais da Vila
+        if self.include_seer:
+            role_summary_parts.append("1 Seer")
+        if self.include_doctor:
+            role_summary_parts.append("1 Doctor")
+        
+        # Calcula e adiciona a contagem de Aldeões
+        num_villagers = self.num_players - len(roles_to_assign) + num_villagers # Re-calculando aqui para simplicidade
+        num_villagers = self.num_players - self.num_werewolves_start - (1 if self.include_seer else 0) - (1 if self.include_doctor else 0)
+        if num_villagers > 0:
+            role_summary_parts.append(f"{num_villagers} Villager" if num_villagers == 1 else f"{num_villagers} Villagers")
+
+        summary_message = f"This game includes the following roles: {', '.join(role_summary_parts)}."
+        self._broadcast_message(summary_message)
+        # --- FIM DO ANÚNCIO ---
 
         self._update_player_counts() 
         self.day_number = 1

@@ -220,8 +220,7 @@ class Player:
             next_speaker_name = "anyone" # Usa 'anyone' como próximo por padrão
 
             # Tenta encontrar uma indicação de próximo orador de forma mais robusta
-            # Procura por "NEXT: [NOME]" ou "PRÓXIMO: [NOME]"
-            next_match = re.search(r"(?:NEXT|PRÓXIMO):\s*(\w+)", response_text, re.IGNORECASE)
+            next_match = re.search(r"NEXT:\s*(\w+)", response_text, re.IGNORECASE)
             if next_match:
                 potential_name = next_match.group(1)
                 # Verifica se o nome encontrado está na lista de jogadores vivos
